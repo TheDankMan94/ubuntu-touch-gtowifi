@@ -43,3 +43,11 @@ Nothing here has been reviewed by UBports. Treat it as a bring-up log plus the f
    image to copy the ramdisk and command line from (see `docs/NOTES.md`, "Bring-up log").
 
 Flashing a boot image to the wrong partition can soft-brick a device. Use at your own risk.
+
+## Licence
+
+Original work in this repository is under the Apache License 2.0 (see `LICENSE`). Exceptions, which keep their own terms:
+
+- Files copied or derived from the LineageOS `gtowifi` tree (much of `device/samsung/gtowifi`) are Apache-2.0 from their authors.
+- Files with their own copyright headers, such as the Qualcomm/Linux Foundation audio configs in `device/samsung/gtowifi/configs/audio`, keep those terms.
+- `kernel/` changes apply to the Linux kernel and are GPL-2.0-only, like the kernel itself.
