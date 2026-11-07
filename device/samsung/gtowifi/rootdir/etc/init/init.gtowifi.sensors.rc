@@ -1,0 +1,25 @@
+# Sensors for gtowifi on Halium.
+# LineageOS starts the Qualcomm SSC sensor daemon from init.target.rc / init.qcom.sensors.sh; Halium does not
+# ship those scripts, so only the sensor parts are carried over here. sensors.qti talks to the sensor core on the
+# ADSP (started by Ubuntu Touch's gtowifi-hw job) and reads its registry from /mnt/vendor/persist/sensors.
+
+on early-boot
+    chown system system /mnt/vendor/persist/sensors
+    chown system system /mnt/vendor/persist/sensors/sns.reg
+    chown system system /mnt/vendor/persist/sensors/sensors_settings
+    chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
+
+# QMI access rules for the kernel IPC router (who may talk to which DSP service); Lineage: init.qcom.rc
+service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
+    class core
+    user root
+    oneshot
+
+# The kernel IPC router only lets a process register a QMI service (bind) with CAP_NET_BIND_SERVICE or
+# CAP_NET_RAW (net/ipc_router/ipc_router_security.c); without it: "msm_ipc_router_bind: sensors.qti Do not
+# have permissions" and the daemon exits with "Timeout waiting for SMGR service".
+service vendor.sensors.qti /vendor/bin/sensors.qti
+    class core
+    user system
+    group system
+    capabilities NET_BIND_SERVICE

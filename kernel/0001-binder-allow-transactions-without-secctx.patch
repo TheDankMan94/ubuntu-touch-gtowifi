@@ -1,0 +1,20 @@
+--- a/drivers/android/binder.c	2026-11-06 17:33:19.413722022 -0500
++++ b/drivers/android/binder.c	2026-11-06 17:33:19.426988089 -0500
+@@ -3251,7 +3251,16 @@
+ 
+ 		security_task_getsecid(proc->tsk, &secid);
+ 		ret = security_secid_to_secctx(secid, &secctx, &secctx_sz);
+-		if (ret) {
++		if (ret == -EOPNOTSUPP) {
++			/*
++			 * Halium: the active LSM (AppArmor on a 4.9 kernel) cannot
++			 * turn a secid into a security context. Deliver the
++			 * transaction without one instead of failing it, otherwise
++			 * every call to hwservicemanager fails with -EOPNOTSUPP.
++			 */
++			secctx = NULL;
++			secctx_sz = 0;
++		} else if (ret) {
+ 			return_error = BR_FAILED_REPLY;
+ 			return_error_param = ret;
+ 			return_error_line = __LINE__;

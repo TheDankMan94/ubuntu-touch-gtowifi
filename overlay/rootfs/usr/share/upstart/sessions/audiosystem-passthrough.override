@@ -1,0 +1,3 @@
+# gtowifi is Wi-Fi only: no modem, so the QTI call-audio service (vendor.qti.qcril.am IQcRilAudio)
+# this bridge needs never exists. It failed every boot and made session-watchdog reboot the tablet.
+manual

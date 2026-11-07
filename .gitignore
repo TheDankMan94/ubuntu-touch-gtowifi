@@ -1,0 +1,8 @@
+*.img
+*.zip
+!device/samsung/gtowifi/bootanimation-placeholder.zip
+*.orig
+__pycache__/
+*.log
+notes/ssh/
+*key*

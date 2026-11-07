@@ -1,0 +1,4 @@
+# The image build copies nothing from this folder, so send nothing but the Dockerfile.
+# (The Halium source tree is mounted into the container at run time instead.)
+*
+!Dockerfile
